@@ -1,12 +1,18 @@
-*.class
+# pyc文件
+*.bak
+*.pyc
+*.db
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# 日志文件、框架文件、运行平台依赖
+/log
+/frameworks
+/runtime
+/tools
+/publish
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# settings文件
+.settings/
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# 以.开头的文件，.gitignore除外
+\.*
+!.gitignore
