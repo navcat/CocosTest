@@ -4,6 +4,27 @@
 var PearlLayer = cc.Layer.extend({
 	ctor: function(){
 		this._super();
+		// 窗体的宽度
+		var size = cc.winSize;
+		
+		/// 添加菜单
+		var returnMenu = new cc.MenuItemFont(
+				"返回",
+				function () {
+					cc.log("Menu is clicked!");
+					cc.director.runScene(new MenuScene());
+				}, this);
+		returnMenu.attr({
+			x: size.width - 20,
+			y: 20,
+			anchorX: 0.5,
+			anchorY: 0.5
+		});
+
+		var menu = new cc.Menu(returnMenu);
+		menu.x = 0;
+		menu.y = 0;
+		this.addChild(menu, 1);
 	
 		// 画球
 		var size = this.getContentSize();
@@ -15,7 +36,7 @@ var PearlLayer = cc.Layer.extend({
 		
 		// 方向 (-1, 1)的随机数
 		var direction = cc.p(cc.randomMinus1To1(), cc.randomMinus1To1());
-		
+
 		this.schedule(function(){
 			var p = pearl.getPosition();
 			// 超过边界反弹

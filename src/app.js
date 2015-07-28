@@ -7,14 +7,14 @@ var MenuLayer = cc.Layer.extend({
 
         /// 添加菜单
         var pearlMenu = new cc.MenuItemFont(
-            "弹珠",
+            "1,弹珠",
             function () {
                 cc.log("Menu is clicked!");
-                cc.director.runScene(new PlayScene());
+                cc.director.runScene(new PearlScene());
             }, this);
         pearlMenu.attr({
-            x: size.width - 20,
-            y: 20,
+            x: size.width / 2,
+            y: size.height - 20,
             anchorX: 0.5,
             anchorY: 0.5
         });
