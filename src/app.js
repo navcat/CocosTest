@@ -35,7 +35,7 @@ var MenuLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2,
             scale: 0.5,
-            rotation: 180
+            rotation: 0
         });
         this.addChild(this.sprite, 0);
         return true;
