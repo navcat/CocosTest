@@ -1,5 +1,6 @@
 var res = {
-	BackGround_jpg: "res/BackGround.jpg"
+	BackGround_jpg: "res/BackGround.jpg",			// 背景图片
+	Sprite_jpg: "res/sprite.jpg"					// 马文字
 };
 
 var g_resources = [];
