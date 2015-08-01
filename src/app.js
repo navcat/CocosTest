@@ -21,6 +21,8 @@ var MenuLayer = cc.Layer.extend({
             anchorX: 0.5,
             anchorY: 0.5
         });
+        
+        /// 动作管理
         var amMenu = new cc.MenuItemFont(
         		"2,ActionManager",
         		function () {
@@ -34,8 +36,25 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        
+        /// 事件管理
+        var eventMenu = new cc.MenuItemFont(
+        		"3,EventManager",
+        		function () {
+        			cc.log("Menu is clicked!");
+        			cc.director.runScene(new EventManagerScene());
+        		}, this);
+        eventMenu.attr({
+        	x: size.width / 2,
+        	y: size.height - menuHeight * 2,
+        	color: this.randomColor(),  // 改变颜色
+        	anchorX: 0.5,
+        	anchorY: 0.5
+        });
+        
+        
 
-        var menu = new cc.Menu(pearlMenu, amMenu);
+        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);

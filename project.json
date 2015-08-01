@@ -13,6 +13,7 @@
         "src/resource.js",
         "src/app.js",
         "src/PearlLayer.js",
-        "src/ActionManager.js"
+        "src/ActionManager.js",
+        "src/EventManager.js"
     ]
 }
