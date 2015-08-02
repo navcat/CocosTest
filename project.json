@@ -12,6 +12,7 @@
     "jsList":[
         "src/resource.js",
         "src/app.js",
+        "src/TestBaseLayer.js",
         "src/PearlLayer.js",
         "src/ActionManager.js",
         "src/EventManager.js"
