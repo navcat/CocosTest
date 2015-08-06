@@ -1,14 +1,33 @@
 /**
  * 节点测试
  */
-var NodeTestLayer = cc.Layer.extend({
+var NodeTestLayer = TestBaseLayer.extend({
+	w2: 0,
+	h2: 0,
 	ctor: function(){
 		this._super();
+		this.w2 = this.size.width / 2;
+		this.h2 = this.size.height / 2;
+		var node = new cc.Sprite(res.node152_png);
+		this.addChild(node);
+		node.setPosition(this.w2 - node.getContentSize().width * 1.3, this.h2);
+
+		var node1 = new cc.Sprite(res.node152_png);
+		this.addChild(node1);
+		node1.setPosition(this.w2 + node1.getContentSize().width * 1.3,  this.h2);
+
+		// 配置一些信息
+		node.name = "node";
+		node1.name = "node1";
+		this.name = "MainLayer";
+		this.setName("MainLayer");
+
+		
 		/// 基础属性
 		// 1.1,位置测试
-
-		this.testPosition();
+//		this.test_1_1(node, node1);
 		// 1.2,大小测试
+		this.test_1_2(node, node1);
 		// 1.3,锚点测试
 		// 1.4,层级测试
 		// 1.5,数据和标签测试
@@ -44,8 +63,63 @@ var NodeTestLayer = cc.Layer.extend({
 	/**
 	 * 1.1,位置测试
 	 */
-	testPosition: function(){
+	test_1_1: function(node, node1){
+		cc.log("===============[位置 Began]===============");
+		// 针对【父节点】设置/获取坐标点
+		node.setPosition(this.w2, this.h2);
+		var position = node.getPosition();
+		cc.log("position X: ", position.x, "position Y: ",position.y);
+
+		node.setPositionX(100);
+		node.setPositionY(200);
+		var posX = node.getPositionX();
+		var posY = node.getPositionY();
+		cc.log("position X: ", posX, "position Y: ",posY);
+		// 规格化设置坐标
+		// node.setNormalizedPosition(0.5, 0.5);
+
+		cc.log("-------------------------------------------");
+
+		node1.x = this.w2;
+		node1.y = this.h2;
+		var position = cc.p(node1.x, node1.y);
+		cc.log("position X: ", position.x, "position Y: ",position.y);
+
+		node1.x = 555;
+		node1.y = 444;
+		var posX = node1.x;
+		var posY = node1.y;
+		cc.log("position X: ", posX, "position Y: ",posY);
+
+		cc.log("===============[位置 End]=================");
+	},
+	/**
+	 * 1.2,大小测试
+	 */
+	test_1_2: function(node, node1){
+		cc.log("===============[大小 Began]===============");
+		var width = node.getContentSize().width;
+		var height = node.getContentSize().height;
+		cc.log("width : ",width, " , height : ", height);
+		// 1. 所有的节点都有大小。 Layer和Scene默认拥有跟【屏幕】一样的大小
+		// 2. 设置节点内容的大小, 会影响坐标【位置】。其他举例：LayerColor, 事件
+		// 3. 不管节点【缩放或者旋转】等，节点的contentSize是【不会】发生变化的
+		node.setContentSize(width/2, height/2);
+		cc.log("width2 : ",width, " , height2 : ", height);
+		node.setContentSize(cc.size(width/4, height/4));
+		cc.log("width4 : ",width, " , height4 : ", height);
+
+		cc.log("-------------------------------------------");
 		
+		var width = node1.width;
+		var height = node1.height;
+		cc.log("width : ",width, " , height : ", height);
+
+		node1.width = width/2;
+		node1.height = height/4;
+		cc.log("width : ",width, " , height : ", height);
+
+		cc.log("===============[大小 End]=================");
 	}
 });
 
