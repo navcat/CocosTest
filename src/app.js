@@ -52,9 +52,23 @@ var MenuLayer = cc.Layer.extend({
         	anchorY: 0.5
         });
         
+        /// 节点测试
+        var nodeMenu = new cc.MenuItemFont(
+        		"4,NodeTest",
+        		function () {
+        			cc.log("Menu is clicked!");
+        			cc.director.runScene(new NodeTestScene());
+        		}, this);
+        nodeMenu.attr({
+        	x: size.width / 2,
+        	y: size.height - menuHeight * 3,
+        	color: this.randomColor(),  // 改变颜色
+        	anchorX: 0.5,
+        	anchorY: 0.5
+        });
         
 
-        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu);
+        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);

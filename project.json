@@ -15,6 +15,7 @@
         "src/TestBaseLayer.js",
         "src/PearlLayer.js",
         "src/ActionManager.js",
-        "src/EventManager.js"
+        "src/EventManager.js",
+        "src/NodeTest.js"
     ]
 }

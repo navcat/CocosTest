@@ -6,7 +6,14 @@ var res = {
 	cyan_png        : "res/event/cyan_square.png",
 	magenta_png     : "res/event/magenta_square.png",
 	yellow_png      : "res/event/yellow_square.png",
-	bg_scale9_png   : "res/event/buttonBackground.png"
+	bg_scale9_png   : "res/event/buttonBackground.png",
+		
+	// 节点 node	
+	node64_png : "res/node/node_64.png",
+	node128_png : "res/node/node_128.png",
+	node152_png : "res/node/node_152.png",
+	node256_png : "res/node/node_256.png",
+	node512_png : "res/node/node_512.png"
 };
 
 var g_resources = [];
