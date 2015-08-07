@@ -37,8 +37,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		
 		/// 图形属性
 		// 2.1 旋转
-		this.test_2_1(node, node1);
+//		this.test_2_1(node, node1);
 		// 2.2 缩放
+		this.test_2_2(node, node1);
 		// 2.3 倾斜
 		// 2.4 可见
 		// 2.5 透明
@@ -285,13 +286,41 @@ var NodeTestLayer = TestBaseLayer.extend({
 		cc.log("-------------------------------------------");
 
 		node1.rotation = 90;
-//			node1.rotationX = 45;
-//			node1.rotationY = 45;
+//		node1.rotationX = 45;
+//		node1.rotationY = 45;
 		cc.log("node1.rotation : ", node1.rotation);
 		cc.log("node1.rotationX : ", node1.rotationX);
 		cc.log("node1.rotationY : ", node1.rotationY);
 
 		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 2.2 缩放
+	 */
+	test_2_2: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+//       1. 默认为 1
+		cc.log("node.getScale() : ", node.getScale());
+         node.setScale(2);
+//       node.setScaleX(2);
+//       node.setScaleY(2);
+
+         cc.log("node.getScale() : ", node.getScale());
+         cc.log("node.getScaleX() : ", node.getScaleX());
+         cc.log("node.getScaleY() : ", node.getScaleY());
+
+         cc.log("-------------------------------------------");
+
+//       node1.scale = 1;
+         node1.scaleX = 1.5;
+         node1.scaleY = 2;
+
+         cc.log("node1.getScale() : ", node1.getScale());
+         cc.log("node1.getScaleX() : ", node1.getScaleX());
+         cc.log("node1.getScaleY() : ", node1.getScaleY());
+
+         cc.log("===============[Block End]=================");
 	}
 });
 
