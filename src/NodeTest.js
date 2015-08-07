@@ -45,8 +45,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 2.4 可见
 //		this.test_2_4(node, node1);
 		// 2.5 透明
-		this.test_2_5(node, node1);
+//		this.test_2_5(node, node1);
 		// 2.6 颜色
+		this.test_2_6(node, node1);
 		// 2.7 渲染
 		
 		/// 其他属性
@@ -386,6 +387,36 @@ var NodeTestLayer = TestBaseLayer.extend({
 //			node1.cascadeOpacity = false; // default -> false
 		cc.log("node1.opacity : ", node1.opacity);
 		cc.log("node1.cascadeOpacityEnabled : ", node1.cascadeOpacity);
+
+		var tmpNode = new cc.Sprite(res.node152_png);
+		node1.addChild(tmpNode);
+		tmpNode.setNormalizedPosition(0, 0);
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 2.6 颜色
+	 */
+	test_2_6: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		node.setColor(cc.color(255, 255, 0));
+
+		// 是否【启用】【级联】颜色
+		node.setCascadeColorEnabled(true);  // default -> false
+		cc.log("node.getColor() : ", node.getColor());
+		cc.log("node.getCascadeColorEnabled() : ", node.isCascadeColorEnabled());
+
+		var tmpNode = new cc.Sprite(res.node152_png);
+		node.addChild(tmpNode);
+		tmpNode.setNormalizedPosition(1, 0);
+
+		cc.log("-------------------------------------------");
+
+		node1.color = cc.color(255, 255, 0);
+		node1.cascadeColor = false;
+		cc.log("node.color : ", node.color);
+		cc.log("node.cascadeColor : ", node.cascadeColor);
 
 		var tmpNode = new cc.Sprite(res.node152_png);
 		node1.addChild(tmpNode);
