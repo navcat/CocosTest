@@ -31,8 +31,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 1.3,锚点测试
 //		this.test_1_3(node, node1);
 		// 1.4,层级测试
-		this.test_1_4(node, node1);
+//		this.test_1_4(node, node1);
 		// 1.5,数据和标签测试
+		this.test_1_5(node, node1);
 		
 		/// 图形属性
 		// 2.1 旋转
@@ -206,6 +207,62 @@ var NodeTestLayer = TestBaseLayer.extend({
 
         // tmpNode.zIndex = -1;
         cc.log(" tmpNode.zIndex : ", tmpNode.zIndex);
+
+        cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 1.5,数据和标签测试
+	 */
+	test_1_5: function(node, node1){
+		cc.log("===============[Block Began]===============");
+        var OUT_MAN = 1;
+
+        // tag 为【number】类型。
+        node.setTag(OUT_MAN);
+        cc.log("node.getTag() : ", node.getTag());
+
+        // name 为【string】类型
+        node.setName("out man");  // 奥特曼
+        cc.log("node.getName() : ", node.getName());
+
+        var userData = {
+            name : "out man",
+            age : 18
+        }
+
+        // 【随意】设置， 一个【数据块】, 【结构体】或者一个【对象】
+        node.setUserData(userData);
+        cc.log("node.getUserData() :", node.getUserData());
+
+        var tmpNode = new cc.Node();
+        tmpNode.setTag(998);
+
+        // 设置一个用户指定的【cocos2d对象】
+        node.setUserObject(tmpNode);
+        cc.log("node.getObject() : ", node.getUserObject());
+
+
+        cc.log("-------------------------------------------");
+
+
+        var OUT_MAN = 1;
+        node1.tag = OUT_MAN;
+        cc.log("node1.tag : ", node1.tag);
+
+        node1.name = "out man";
+        cc.log("node1.name : ", node1.name);
+
+        var userData = {
+            name : "out man",
+            age : 18
+        }
+        node1.userData = userData;
+        cc.log("node1.userData :", node1.userData);
+
+        var tmpNode = new cc.Node();
+        tmpNode.tag = 998 ;
+        node1.userObject = tmpNode;
+        cc.log("node1.userObject : ", node1.userObject.tag);
 
         cc.log("===============[Block End]=================");
 	}
