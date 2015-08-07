@@ -47,8 +47,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 2.5 透明
 //		this.test_2_5(node, node1);
 		// 2.6 颜色
-		this.test_2_6(node, node1);
+//		this.test_2_6(node, node1);
 		// 2.7 渲染
+		this.test_2_7(node, node1);
 		
 		/// 其他属性
 		// 3.1 父/子相关
@@ -421,6 +422,28 @@ var NodeTestLayer = TestBaseLayer.extend({
 		var tmpNode = new cc.Sprite(res.node152_png);
 		node1.addChild(tmpNode);
 		tmpNode.setNormalizedPosition(0, 0);
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 2.7 渲染
+	 */
+	test_2_7: function(node, node2){
+		cc.log("===============[Block Began]===============");
+
+		cc.log("node.getVertexZ() : ", node.getVertexZ());
+
+		cc.log("node.getShaderProgram() : ", node.getShaderProgram());
+		node.setShaderProgram(cc.shaderCache.programForKey(cc.SHADER_POSITION_TEXTURECOLOR));
+		cc.log("node.getShaderProgram() : ", node.getShaderProgram());
+
+		cc.log("-------------------------------------------");
+
+		cc.log("node.vertexZ : ", node.vertexZ);
+
+		cc.log("node.shaderProgram : ", node.shaderProgram);
+		node.shaderProgram = cc.shaderCache.programForKey(cc.SHADER_POSITION_TEXTURECOLOR);
+		cc.log("node.shaderProgram : ", node.shaderProgram);
 
 		cc.log("===============[Block End]=================");
 	}
