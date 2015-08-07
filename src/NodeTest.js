@@ -41,8 +41,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 2.2 缩放
 //		this.test_2_2(node, node1);
 		// 2.3 倾斜
-		this.test_2_3(node, node1);
+//		this.test_2_3(node, node1);
 		// 2.4 可见
+		this.test_2_4(node, node1);
 		// 2.5 透明
 		// 2.6 颜色
 		// 2.7 渲染
@@ -343,6 +344,21 @@ var NodeTestLayer = TestBaseLayer.extend({
 		node1.skewY = 60;
 		cc.log("node1.skewY : ", node1.skewY);
 		cc.log("node1.skewX : ", node1.skewX);
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 2.4 可见
+	 */
+	test_2_4: function(node, node1){
+		cc.log("===============[Block Began]===============");
+		node.setVisible(false);
+		cc.log("node.isVisible() : ", node.isVisible());
+
+		cc.log("-------------------------------------------");
+
+		node1.visible = true;
+		cc.log("node1.visible : ", node1.visible)
 
 		cc.log("===============[Block End]=================");
 	}
