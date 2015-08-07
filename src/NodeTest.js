@@ -43,8 +43,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 2.3 倾斜
 //		this.test_2_3(node, node1);
 		// 2.4 可见
-		this.test_2_4(node, node1);
+//		this.test_2_4(node, node1);
 		// 2.5 透明
+		this.test_2_5(node, node1);
 		// 2.6 颜色
 		// 2.7 渲染
 		
@@ -359,6 +360,36 @@ var NodeTestLayer = TestBaseLayer.extend({
 
 		node1.visible = true;
 		cc.log("node1.visible : ", node1.visible)
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 2.5 透明
+	 */
+	test_2_5: function(node, node1){
+		cc.log("===============[Block Began]===============");
+		// 0-255
+		node.setOpacity(128);
+
+		// 是否【启用】【级联】不透明度
+		node.setCascadeOpacityEnabled(false); // default -> false
+		cc.log("node.getOpacity() : ", node.getOpacity());
+		cc.log("node.getCascadeOpacityEnabled() : ", node.isCascadeOpacityEnabled());
+
+		var tmpNode = new cc.Sprite(res.node152_png);
+		node.addChild(tmpNode);
+		tmpNode.setNormalizedPosition(1, 0);
+
+		cc.log("-------------------------------------------");
+
+		node1.opacity = 128;
+//			node1.cascadeOpacity = false; // default -> false
+		cc.log("node1.opacity : ", node1.opacity);
+		cc.log("node1.cascadeOpacityEnabled : ", node1.cascadeOpacity);
+
+		var tmpNode = new cc.Sprite(res.node152_png);
+		node1.addChild(tmpNode);
+		tmpNode.setNormalizedPosition(0, 0);
 
 		cc.log("===============[Block End]=================");
 	}
