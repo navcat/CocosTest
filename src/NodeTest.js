@@ -33,10 +33,11 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 1.4,层级测试
 //		this.test_1_4(node, node1);
 		// 1.5,数据和标签测试
-		this.test_1_5(node, node1);
+//		this.test_1_5(node, node1);
 		
 		/// 图形属性
 		// 2.1 旋转
+		this.test_2_1(node, node1);
 		// 2.2 缩放
 		// 2.3 倾斜
 		// 2.4 可见
@@ -265,6 +266,32 @@ var NodeTestLayer = TestBaseLayer.extend({
         cc.log("node1.userObject : ", node1.userObject.tag);
 
         cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 2.1 旋转
+	 */
+	test_2_1: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+//		1. 默认为0度
+		node.setRotation(45);
+//		node.setRotationX(45);
+//		node.setRotationY(45);
+		cc.log("node.getRotation() : ", node.getRotation());
+		cc.log("node.getRotationX() : ", node.getRotationX());
+		cc.log("node.getRotationY() : ", node.getRotationY());
+
+
+		cc.log("-------------------------------------------");
+
+		node1.rotation = 90;
+//			node1.rotationX = 45;
+//			node1.rotationY = 45;
+		cc.log("node1.rotation : ", node1.rotation);
+		cc.log("node1.rotationX : ", node1.rotationX);
+		cc.log("node1.rotationY : ", node1.rotationY);
+
+		cc.log("===============[Block End]=================");
 	}
 });
 
