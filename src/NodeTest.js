@@ -39,8 +39,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 2.1 旋转
 //		this.test_2_1(node, node1);
 		// 2.2 缩放
-		this.test_2_2(node, node1);
+//		this.test_2_2(node, node1);
 		// 2.3 倾斜
+		this.test_2_3(node, node1);
 		// 2.4 可见
 		// 2.5 透明
 		// 2.6 颜色
@@ -321,6 +322,29 @@ var NodeTestLayer = TestBaseLayer.extend({
          cc.log("node1.getScaleY() : ", node1.getScaleY());
 
          cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 2.3 倾斜
+	 */
+	test_2_3: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+//		1. 默认为0
+//		node.setRotationX(45);
+		node.setSkewX(45);
+//		node.setSkewY(60);
+		cc.log("node.getSkewX() : ", node.getSkewX());
+		cc.log("node.getSkewY() : ", node.getSkewY());
+
+		cc.log("-------------------------------------------");
+
+//		node1.rotation = 45;
+		node1.skewX = 45;
+		node1.skewY = 60;
+		cc.log("node1.skewY : ", node1.skewY);
+		cc.log("node1.skewX : ", node1.skewX);
+
+		cc.log("===============[Block End]=================");
 	}
 });
 
