@@ -29,8 +29,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 1.2,大小测试
 //		this.test_1_2(node, node1);
 		// 1.3,锚点测试
-		this.test_1_3(node, node1);
+//		this.test_1_3(node, node1);
 		// 1.4,层级测试
+		this.test_1_4(node, node1);
 		// 1.5,数据和标签测试
 		
 		/// 图形属性
@@ -135,29 +136,30 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 4. cc.Node 【默认】为 (0, 0), cc.Scene、cc.Layer、cc.Sprite 为(0.5, 0.5)
 		var anchor = node.getAnchorPoint();
 		cc.log("anchor:", anchor);
-		
-		node.setAnchorPoint(0.5, 0.5);
+
+		node.setAnchorPoint(0.1, 0.5);
 		var anchor = node.getAnchorPoint();
 		cc.log("anchor : ", anchor);
 
-        // 【锚点】在当前节点上的【绝对位置】
-        cc.log("node.getAnchorPointInPoints() : ", node.getAnchorPointInPoints());
+		// 【锚点】在当前节点上的【绝对位置】
+		cc.log("node.getAnchorPointInPoints() : ", node.getAnchorPointInPoints());
 
-        var ignoreAnchor = node.isIgnoreAnchorPointForPosition();
-        cc.log("ignoreAnchor", ignoreAnchor);
+		/// 忽略锚点
+		var ignoreAnchor = node.isIgnoreAnchorPointForPosition();
+		cc.log("ignoreAnchor", ignoreAnchor);
 
-        node.ignoreAnchorPointForPosition(!ignoreAnchor);
-        var ignoreAnchor = node.isIgnoreAnchorPointForPosition();
-        cc.log("ignoreAnchor", ignoreAnchor);
+		node.ignoreAnchorPointForPosition(!ignoreAnchor);
+		var ignoreAnchor = node.isIgnoreAnchorPointForPosition();
+		cc.log("ignoreAnchor", ignoreAnchor);
 
-        cc.log("-------------------------------------------");
+		cc.log("-------------------------------------------");
 
-        var anchor = cc.p(node1.anchorX, node1.anchorY);
-        cc.log("anchor : ", anchor);
+		var anchor = cc.p(node1.anchorX, node1.anchorY);
+		cc.log("anchor : ", anchor);
 
-        node1.anchorX = 1;
-        node1.anchorY = 1;
-        var anchor = cc.p(node1.anchorX, node1.anchorY);
+		node1.anchorX = 1;
+		node1.anchorY = 1;
+		var anchor = cc.p(node1.anchorX, node1.anchorY);
         cc.log("anchor : ", anchor);
 
         var ignoreAnchor = node1.ignoreAnchor;
@@ -179,6 +181,31 @@ var NodeTestLayer = TestBaseLayer.extend({
         cc.log("scene", scene.ignoreAnchor);
         cc.log("layer", layer.ignoreAnchor);
         cc.log("sprite", sprite.ignoreAnchor);
+
+        cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 1.4,层级测试
+	 */
+	test_1_4: function(node, node1){
+		node.setPosition(this.w2, this.h2);
+        node1.setVisible(false);
+
+        cc.log("===============[Block Began]===============");
+
+        var tmpNode = new cc.Sprite(res.node152_png);
+        tmpNode.setPosition(node.getPositionX() + 50, node.getPositionY() + 50);
+        this.addChild(tmpNode);
+
+        // 层级设置
+        tmpNode.setLocalZOrder(-1);
+        cc.log(" tmpNode.getLocalZOrder() : ", tmpNode.getLocalZOrder());
+        cc.log(" tmpNode.getGlobalZOrder() : ", tmpNode.getGlobalZOrder());
+
+        cc.log("-------------------------------------------");
+
+        // tmpNode.zIndex = -1;
+        cc.log(" tmpNode.zIndex : ", tmpNode.zIndex);
 
         cc.log("===============[Block End]=================");
 	}
