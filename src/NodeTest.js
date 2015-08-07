@@ -27,8 +27,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 1.1,位置测试
 //		this.test_1_1(node, node1);
 		// 1.2,大小测试
-		this.test_1_2(node, node1);
+//		this.test_1_2(node, node1);
 		// 1.3,锚点测试
+		this.test_1_3(node, node1);
 		// 1.4,层级测试
 		// 1.5,数据和标签测试
 		
@@ -110,7 +111,7 @@ var NodeTestLayer = TestBaseLayer.extend({
 		cc.log("width4 : ",width, " , height4 : ", height);
 
 		cc.log("-------------------------------------------");
-		
+
 		var width = node1.width;
 		var height = node1.height;
 		cc.log("width : ",width, " , height : ", height);
@@ -120,6 +121,66 @@ var NodeTestLayer = TestBaseLayer.extend({
 		cc.log("width : ",width, " , height : ", height);
 
 		cc.log("===============[大小 End]=================");
+	},
+	/**
+	 * 1.3,锚点测试
+	 */
+	test_1_3: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		// cc.p(0, 0)
+		// 1. 是一个【点】，【取值范围】是[0-1]
+		// 2. 【决定】了你节点上的【哪个点】定位在你指定的【坐标】上
+		// 3. 一些【动作】和【属性】饶这个锚点运作
+		// 4. cc.Node 【默认】为 (0, 0), cc.Scene、cc.Layer、cc.Sprite 为(0.5, 0.5)
+		var anchor = node.getAnchorPoint();
+		cc.log("anchor:", anchor);
+		
+		node.setAnchorPoint(0.5, 0.5);
+		var anchor = node.getAnchorPoint();
+		cc.log("anchor : ", anchor);
+
+        // 【锚点】在当前节点上的【绝对位置】
+        cc.log("node.getAnchorPointInPoints() : ", node.getAnchorPointInPoints());
+
+        var ignoreAnchor = node.isIgnoreAnchorPointForPosition();
+        cc.log("ignoreAnchor", ignoreAnchor);
+
+        node.ignoreAnchorPointForPosition(!ignoreAnchor);
+        var ignoreAnchor = node.isIgnoreAnchorPointForPosition();
+        cc.log("ignoreAnchor", ignoreAnchor);
+
+        cc.log("-------------------------------------------");
+
+        var anchor = cc.p(node1.anchorX, node1.anchorY);
+        cc.log("anchor : ", anchor);
+
+        node1.anchorX = 1;
+        node1.anchorY = 1;
+        var anchor = cc.p(node1.anchorX, node1.anchorY);
+        cc.log("anchor : ", anchor);
+
+        var ignoreAnchor = node1.ignoreAnchor;
+        cc.log("ignoreAnchor", ignoreAnchor);
+
+        node1.ignoreAnchor = !ignoreAnchor;
+        var ignoreAnchor = node1.ignoreAnchor;
+        cc.log("ignoreAnchor", ignoreAnchor);
+
+        // ignoreAnchor
+        var node = new cc.Node();
+
+        // cc.Node、 cc.Sprite 为 【false】
+        // cc.Layer、cc.Scene  为 【true】
+        var scene = new cc.Scene();
+        var layer = new cc.Layer();
+        var sprite = new cc.Sprite();
+        cc.log("node", node.ignoreAnchor);
+        cc.log("scene", scene.ignoreAnchor);
+        cc.log("layer", layer.ignoreAnchor);
+        cc.log("sprite", sprite.ignoreAnchor);
+
+        cc.log("===============[Block End]=================");
 	}
 });
 
