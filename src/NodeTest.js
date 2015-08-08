@@ -55,8 +55,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 3.1 父/子相关
 //		this.test_3_1(node, node1);
 		// 3.2定时器
-		this.test_3_2(node, node1);
+//		this.test_3_2(node, node1);
 		// 3.3 运行状态
+		this.test_3_3(node, node1);
 		// 3.4 动作管理
 		// 3.5 到达顺序
 		
@@ -494,6 +495,36 @@ var NodeTestLayer = TestBaseLayer.extend({
 
 		var scheduler = node.scheduler;
 		cc.log("node.scheduler : ", scheduler);
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 3.3 运行状态
+	 */
+	test_3_3: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		// read only
+//		node.onEnter(); --> running : true
+//		node.onExit(); --> running : false
+		var running = node.isRunning();
+		cc.log("this.inRunning() : ", running);
+
+		var tmpNode = new cc.Sprite(res.node152_png);
+		tmpNode.setNormalizedPosition(0.5, 0.5);
+//		this.addChild(tmpNode, 99);
+		cc.log("tmpNode.isRunning() : ", tmpNode.isRunning());
+
+		cc.log("-------------------------------------------");
+
+		// read only
+		var running = node.running;
+		cc.log("node.running : ", running);
+
+		var tmpNode = new cc.Sprite(res.node152_png);
+		tmpNode.setNormalizedPosition(0.5, 0.5);
+		this.addChild(tmpNode, 99);
+		cc.log("tmpNode.running : ", tmpNode.running);
+
 		cc.log("===============[Block End]=================");
 	}
 });
