@@ -66,18 +66,27 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 3.4 动作管理
 //		this.test_3_4(node, node1);
 		// 3.5 到达顺序
-		this.test_3_5(node, node1);
+//		this.test_3_5(node, node1);
 		
 		/// 功能函数
 		// 4.1 属性配置
+//		this.test_4_1(node, node1);
 		// 4.2 图形操作
+//		this.test_4_2(node, node1);
 		// 4.3 节点操作
+//		this.test_4_3(node, node1);
 		// 4.4 事件回调
-		// 4.5 动作模块
-		// 4.6内存管理
-		// 4.7计时器
-		// 4.8坐标转换
-		// 4.9边框区域
+//		this.test_4_4(node, node1);
+//		// 4.5 动作模块
+//		this.test_4_5(node, node1);
+//		// 4.6内存管理
+//		this.test_4_6(node, node1);
+//		// 4.7计时器
+//		this.test_4_7(node, node1);
+//		// 4.8坐标转换
+//		this.test_4_8(node, node1);
+//		// 4.9边框区域
+		this.test_4_9(node, node1);
 		
 	},
 	/**
@@ -588,6 +597,368 @@ var NodeTestLayer = TestBaseLayer.extend({
 
 		// 到达顺序加1， 绘制顺序改变了。
 		// node.arrivalOrder = node1ArrivalOrder + 1;
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.1 属性配置
+	 */
+	test_4_1: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		node.attr({
+			x : this.w2,
+			y : this.h2,
+			scale : 1.5,
+			rotation : 45
+		});
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.2 图形操作
+	 */
+	test_4_2: function(node, node2){
+		cc.log("===============[Block Began]===============");
+
+		// 1. 规格化设置位置
+		if(true){
+			var tmpNode = new cc.Sprite(res.node64_png);
+			node.addChild(tmpNode);
+			tmpNode.setNormalizedPosition(0.5, 0.5); // 默认为(0, 0) [0-1]
+			cc.log("tmpNode.getNormalizedPosition() : ", tmpNode.getNormalizedPosition());
+		}
+
+		// 2. 内容大小
+		if(true){
+			// 获取节点内容大小
+			var contentSize = node.getContentSize();
+			cc.log("contentSize.width : ", contentSize.width, "contentSize.height : ", contentSize.height);
+
+			node.setContentSize(cc.size(256, 256));
+			var contentSize = node.getContentSize();
+			cc.log("contentSize.width : ", contentSize.width, "contentSize.height : ", contentSize.height);
+		}
+
+		// 3. 获取锚点在当前节点上的绝对坐标
+		if(true){
+			//  只读方法
+			var point = node.getAnchorPointInPoints();
+			cc.log("node.getAnchorPointInPoints().x ", point.x ,"  node.getAnchorPointInPoints().y : ", point.y);
+		}
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.3 节点操作
+	 */
+	test_4_3: function(node, node2){
+		cc.log("===============[Block Began]===============");
+
+		var TAG_NODE_64 = 10;
+		var tmpNode = new cc.Sprite(res.node64_png);
+		tmpNode.setNormalizedPosition(0.5, 0.5);
+		tmpNode.setName("name : node64_png");
+
+		// 1. 增
+		if(true){
+//			1. API : addChild(child, localZOrder, tag);
+//			2. 缺省参数
+			node.addChild(tmpNode, 998, TAG_NODE_64);
+			cc.log("tmpNode.zIndex [前]: ", tmpNode.zIndex);
+
+		}
+
+		// 2. 改
+		if(true){
+			node.reorderChild(tmpNode, 98);
+			cc.log("tmpNode.zIndex [后]: ", tmpNode.zIndex)
+		}
+
+		// 3. 查
+		if(true){
+			var tag = node.getChildByTag(TAG_NODE_64).getTag();
+			var name = node.getChildByName("name : node64_png").getName();
+			cc.log("getChildByTag(), 这里应该是 10 : ", tag);
+			cc.log("getChildByName(), 这里应该是 'name : node64_png':  ", name);
+		}
+
+		// 4. 删
+		if(true){
+			// 1. API : removeChild(child, cleanup);
+			// 2. cleanup : 【默认】：true
+			// 3. cleanup 表示【清除】节点中【所有】的【动作】和【回调函数】
+			node.removeChild(tmpNode);
+
+			//1. API : removeChildByTag(tag, cleanup);
+			// 2. 【注意】：node没有removeChildByName这个API
+			node.removeChildByTag(TAG_NODE_64);
+
+			// 1. API : removeAllChildren(cleanup);
+			node.removeAllChildren();
+
+			// 1. API : removeFromParent(cleanup);
+			tmpNode.removeFromParent();
+
+		}
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.4 事件回调
+	 */
+	test_4_4: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		// 1. onEnter...
+		// 只针对【场景】有效
+		if (false){
+			/*
+             // 进入节点
+             onEnter:function () {
+             this._super();
+
+             var layer = new Lesson0303Layer();
+             this.addChild(layer);
+
+             cc.log("进入节点");
+
+             var scene = new cc.Scene();
+             cc.director.runScene(scene);
+
+             },
+
+             // 进入节点完成
+             onEnterTransitionDidFinish : function(){
+             this._super();
+
+             cc.log("进入节点完成");
+
+             },
+
+             // 准备退出节点
+             onExitTransitionDidStart : function(){
+             this._super();
+             cc.log("准备退出节点");
+
+             },
+             // 退出节点完成
+             onExit : function(){
+             this._super();
+             cc.log("退出节点完成");
+
+             }
+			 */
+
+		}
+
+		// 2. 【暂停】和【恢复】动作以及计数器
+		if (true){
+
+			var callback = function(){
+				cc.log("hello schedule... ");
+			}
+			node.schedule(callback, 0.2);
+
+			var rotation = cc.rotateBy(2, 90).repeatForever();
+			node.runAction(rotation);
+
+
+			var isPause = false;
+			var onTouchBegan = function(){
+				if(!isPause){
+					// 暂停
+					node.pause();
+				}else{
+					// 恢复
+					node.resume();
+				}
+				isPause = !isPause;
+				return true;
+			}
+			cc.eventManager.addListener({
+				event: cc.EventListener.TOUCH_ONE_BY_ONE,
+				swallowTouches: true,
+				onTouchBegan: onTouchBegan
+			}, this);
+		}
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.5 动作模块
+	 */
+	test_4_5: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		var rotation = cc.rotateBy(2, 90).repeatForever();
+		rotation.setTag(99);
+
+		// 运行一个动作
+		node.runAction(rotation);
+
+		var tmpAction = node.getActionByTag(99);
+		cc.log("node.getActionByTag() : ", tmpAction);
+
+//		If you are running 1 Sequence of 7 actions, it will return 1.
+//		If you are running 7 Sequences of 2 actions, it will return 7.
+		// 借助文件夹来理解
+		cc.log("node.getNumberOfRunningActions() : ", node.getNumberOfRunningActions());
+
+//		3种暂停动作方式
+//		node.stopAction(rotation);
+//		node.stopAllActions();
+//		node.stopActionByTag(99);
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.6 内存管理
+	 */
+	test_4_6: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+//		1. ARC自动引用技术 -- IOS应用开发
+		node.retain();
+
+		node.addChild();
+		node.release();
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.7 计时器
+	 */
+	test_4_7: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		// 1. node的update函数将会在每一帧被执行
+		// 2. update函数应该属于当前调用对象
+		if (!true){
+			node.scheduleUpdate();
+			node.update = function(){
+				cc.log("update...")
+			}
+		}
+
+		var callback = null;
+
+		// 1. 自定义计时器
+		if(!true){
+
+			callback = function(){
+				cc.log("自定义定时器...间隔执行...");
+			}
+
+			// 1. API : node.schedule(callback, interval, repeat, delay);
+			// 2. interval : 每隔多少秒执行一次函数
+			// 3. repeat : 【默认】:【cc.REPEAT_FOREVER】
+			// 4. delay  : 【默认】:【 0 】
+			node.schedule(callback, 0.2);
+		}
+
+
+		if(true){
+			callback = function(){
+				cc.log("自定义定时器...执行一次...");
+			}
+			node.scheduleOnce(callback, 2);
+		}
+
+		if(!true){
+
+			// 取消callback任务
+			node.unschedule(callback);
+		}
+
+		if(!true){
+
+			// 取消node节点所有计划中的任务
+			node.unscheduleAllCallbacks();
+		}
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 *  4.8 坐标转换
+	 */
+	test_4_8: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		// 矩阵
+		if(true){
+			// 返回这个将父节点的空间坐标系转换成节点（局部）的空间坐标系转的矩阵。 这个矩阵以像素为单位。
+			cc.log("node.getParentToNodeTransform() : ", node.getParentToNodeTransform());
+
+			// 返回世界仿射变换矩阵。矩阵单位是像素。
+			cc.log("node.getNodeToWorldTransform() : ", node.getNodeToWorldTransform());
+
+			// 返回逆世界仿射变换矩阵。矩阵单位是像素。
+			cc.log("node.getWorldToNodeTransform() : ", node.getWorldToNodeTransform());
+		}
+
+
+		// 坐标转换
+		if (true){
+
+			var position = node.getPosition();
+			cc.log("node position is : ", position);
+
+			var tmpNode = new cc.Sprite(res.node64_png);
+			tmpNode.setPosition(100, 100);
+			node.addChild(tmpNode);
+
+			// 960  * 640
+
+			// 1. 本地（节点）坐标转为世界坐标(忽略锚点，锚点为(0, 0))
+			//    例子：nodeParent.convertToWorldSpace(node.getPosition());
+			//    返回屏幕坐标点
+			var toWorld = node.convertToWorldSpace(tmpNode.getPosition());
+			cc.log("本地坐标转为世界坐标 : ", toWorld);
+			// 2. 本地坐标转为世界坐标(根据锚点)
+			var toWorlAR = node.convertToWorldSpaceAR(tmpNode.getPosition());
+			cc.log("本地坐标转为世界坐标(锚点) : ", toWorlAR);
+
+
+			// =============================================
+
+			// 3. 世界坐标转为本地坐标
+			//    node 拿到相对于tmpNode1 为坐标系的坐标点
+			//    返回的是相对于tmpNode1坐标系的坐标点。
+			var tmpNode1 = new cc.Sprite(res.node152_png);
+			tmpNode1.setPosition(node.getPositionX() - 300, node.getPositionY());
+			this.addChild(tmpNode1);
+			var toNode = tmpNode1.convertToNodeSpace(node);
+			cc.log("世界坐标转为本地坐标 : ", toNode);
+			// 3. 世界左边转为本地坐标(锚点)
+			var toNodeAR = tmpNode1.convertToNodeSpaceAR(node);
+			cc.log("世界坐标转为本地坐标(锚点) : ", toNodeAR);
+
+		}
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 4.9 边框区域
+	 */
+	test_4_9: function(node, node1){
+		node1.visible = false;
+		node.setPosition(this.w2, this.h2);
+		cc.log("===============[Block Began]===============");
+
+		cc.log("node.getBoundingBox() : ", node.getBoundingBox());
+
+		var tmpNode = new cc.Sprite(res.node64_png);
+		tmpNode.setPosition(200, 200);
+		node.addChild(tmpNode);
+		var boundingBoxToWorld = tmpNode.getBoundingBoxToWorld();
+		cc.log("node.getBoundingBoxToWorld() : ", boundingBoxToWorld);
+
+		// 验证
+		var tmpNode1 = new cc.Sprite(res.node64_png);
+		tmpNode1.setPosition(
+				boundingBoxToWorld.x + tmpNode1.getContentSize().width / 2 ,
+				boundingBoxToWorld.y + tmpNode1.getContentSize().height / 2
+		);
+		this.addChild(tmpNode1);
 
 		cc.log("===============[Block End]=================");
 	}
