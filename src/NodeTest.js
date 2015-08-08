@@ -21,6 +21,11 @@ var NodeTestLayer = TestBaseLayer.extend({
 		node1.name = "node1";
 		this.name = "MainLayer";
 		this.setName("MainLayer");
+		
+//		[属性 VS 函数]方式。
+//		1. 属性风格使用起来方便
+//		2. 属性风格用到 ECMAScript 的 getter 和 setter 的特性，这个特性在部分浏览器上还是比函数要慢
+//		3. 所以，如果是非常要求性能的操作，比如碰撞检测，最好还是使用函数
 
 		
 		/// 基础属性
@@ -57,9 +62,11 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 3.2定时器
 //		this.test_3_2(node, node1);
 		// 3.3 运行状态
-		this.test_3_3(node, node1);
+//		this.test_3_3(node, node1);
 		// 3.4 动作管理
+//		this.test_3_4(node, node1);
 		// 3.5 到达顺序
+		this.test_3_5(node, node1);
 		
 		/// 功能函数
 		// 4.1 属性配置
@@ -524,6 +531,63 @@ var NodeTestLayer = TestBaseLayer.extend({
 		tmpNode.setNormalizedPosition(0.5, 0.5);
 		this.addChild(tmpNode, 99);
 		cc.log("tmpNode.running : ", tmpNode.running);
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 3.4 动作管理
+	 */
+	test_3_4: function(node, node1){
+		// 每个Node实例在需要Action的时候都会有一个自己的ActionManager
+		cc.log("===============[Block Began]===============");
+
+		var actionManager = node.getActionManager();
+		cc.log("node.getActionManager() : ", actionManager);
+
+		node.setActionManager(cc.director.getActionManager());
+
+		cc.log("-------------------------------------------");
+
+		var actionManager = node.getActionManager();
+		cc.log("node.getActionManager() : ", actionManager);
+		node.actionManager = cc.director.getActionManager();
+
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 3.5到达顺序
+	 */
+	test_3_5: function(node, node1){
+		node.setPosition(this.w2 - 35, this.h2);
+		node1.setPosition(this.w2 + 35, this.h2 - 35);
+
+		cc.log("===============[Block Began]===============");
+
+		// 到达顺序， 若zIndex值一样，则arrivalOrder值更大的将后面绘制。就是绘制在更上面。引擎内部使用，不建议手动调用
+		var nodeArrivalOrder = node.getOrderOfArrival();
+		cc.log("node.getLocalZOrder() : ", node.getLocalZOrder());
+		cc.log("node.getOrderOfArrival() : ", nodeArrivalOrder);
+
+		var node1ArrivalOrder = node1.getOrderOfArrival();
+		cc.log("node1.getLocalZOrder() : ", node1.getLocalZOrder());
+		cc.log("node1.getOrderOfArrival() : ", node1ArrivalOrder);
+
+		// 到达顺序加1， 绘制顺序改变了。
+		node.setOrderOfArrival(node1ArrivalOrder + 1);
+
+		cc.log("-------------------------------------------");
+
+		// 到达顺序， 若zIndex值一样，则arrivalOrder值更大的将后面绘制。就是绘制在更上面。引擎内部使用，不建议手动调用
+		var nodeArrivalOrder = node.arrivalOrder;
+		cc.log("node.zIndex : ", node.zIndex);
+		cc.log("node.arrivalOrder : ", nodeArrivalOrder);
+
+		var node1ArrivalOrder = node1.arrivalOrder;
+		cc.log("node1.zIndex : ", node1.zIndex);
+		cc.log("node1.arrivalOrder : ", node1ArrivalOrder);
+
+		// 到达顺序加1， 绘制顺序改变了。
+		// node.arrivalOrder = node1ArrivalOrder + 1;
 
 		cc.log("===============[Block End]=================");
 	}
