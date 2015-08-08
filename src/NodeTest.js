@@ -49,10 +49,11 @@ var NodeTestLayer = TestBaseLayer.extend({
 		// 2.6 颜色
 //		this.test_2_6(node, node1);
 		// 2.7 渲染
-		this.test_2_7(node, node1);
+//		this.test_2_7(node, node1);
 		
 		/// 其他属性
 		// 3.1 父/子相关
+		this.test_3_1(node, node1);
 		// 3.2定时器
 		// 3.3 运行状态
 		// 3.4 动作管理
@@ -445,6 +446,38 @@ var NodeTestLayer = TestBaseLayer.extend({
 		node.shaderProgram = cc.shaderCache.programForKey(cc.SHADER_POSITION_TEXTURECOLOR);
 		cc.log("node.shaderProgram : ", node.shaderProgram);
 
+		cc.log("===============[Block End]=================");
+	},
+	/**
+	 * 3.1 父/子相关
+	 */
+	test_3_1: function(node, node1){
+		cc.log("===============[Block Began]===============");
+
+		cc.log("node.getParent().getName() : " , node.getParent().getName());
+
+		node.setParent(node1);
+		cc.log("node.getParent().getName() : " , node.getParent().getName());
+
+		// 返回子节点【集合】read only
+		var childrens = this.getChildren();
+		cc.log("this.getChildren() : ", childrens)
+
+		// 返回子节点【数量】。read only
+		var childrenCount = this.getChildrenCount();
+		cc.log("this.getChildrenCount() : ", childrenCount);
+
+		cc.log("-------------------------------------------");
+
+		cc.log("node1.parent.name : " , node1.parent.name);
+
+		// read only
+		var childrens = this.children;
+		cc.log("this.children : ", childrens)
+
+		// read only
+		var childrenCount = this.childrenCount;
+		cc.log("this.childrenCount : ", childrenCount);
 		cc.log("===============[Block End]=================");
 	}
 });
