@@ -267,9 +267,7 @@ var NodeTestLayer = TestBaseLayer.extend({
         node.setUserObject(tmpNode);
         cc.log("node.getObject() : ", node.getUserObject());
 
-
         cc.log("-------------------------------------------");
-
 
         var OUT_MAN = 1;
         node1.tag = OUT_MAN;
@@ -305,7 +303,6 @@ var NodeTestLayer = TestBaseLayer.extend({
 		cc.log("node.getRotation() : ", node.getRotation());
 		cc.log("node.getRotationX() : ", node.getRotationX());
 		cc.log("node.getRotationY() : ", node.getRotationY());
-
 
 		cc.log("-------------------------------------------");
 
@@ -451,7 +448,6 @@ var NodeTestLayer = TestBaseLayer.extend({
 		cc.log("===============[Block Began]===============");
 
 		cc.log("node.getVertexZ() : ", node.getVertexZ());
-
 		cc.log("node.getShaderProgram() : ", node.getShaderProgram());
 		node.setShaderProgram(cc.shaderCache.programForKey(cc.SHADER_POSITION_TEXTURECOLOR));
 		cc.log("node.getShaderProgram() : ", node.getShaderProgram());
@@ -763,7 +759,6 @@ var NodeTestLayer = TestBaseLayer.extend({
 			var rotation = cc.rotateBy(2, 90).repeatForever();
 			node.runAction(rotation);
 
-
 			var isPause = false;
 			var onTouchBegan = function(){
 				if(!isPause){
@@ -844,11 +839,9 @@ var NodeTestLayer = TestBaseLayer.extend({
 
 		// 1. 自定义计时器
 		if(!true){
-
 			callback = function(){
 				cc.log("自定义定时器...间隔执行...");
 			}
-
 			// 1. API : node.schedule(callback, interval, repeat, delay);
 			// 2. interval : 每隔多少秒执行一次函数
 			// 3. repeat : 【默认】:【cc.REPEAT_FOREVER】
@@ -931,7 +924,6 @@ var NodeTestLayer = TestBaseLayer.extend({
 			// 3. 世界左边转为本地坐标(锚点)
 			var toNodeAR = tmpNode1.convertToNodeSpaceAR(node);
 			cc.log("世界坐标转为本地坐标(锚点) : ", toNodeAR);
-
 		}
 
 		cc.log("===============[Block End]=================");
@@ -959,9 +951,6 @@ var NodeTestLayer = TestBaseLayer.extend({
 				boundingBoxToWorld.y + tmpNode1.getContentSize().height / 2
 		);
 		this.addChild(tmpNode1);
-
-		cc.log("===============[Block End]=================");
-	}
 });
 
 var NodeTestScene = cc.Scene.extend({
