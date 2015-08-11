@@ -67,8 +67,24 @@ var MenuLayer = cc.Layer.extend({
         	anchorY: 0.5
         });
         
+        /// 5.场景切换
+        var sceneMenu = new cc.MenuItemFont(
+        		"5.场景切换",
+        		function () {
+        			cc.log("Menu is clicked 5!");
+        			cc.director.runScene(new TestSceneScene());
+        		}, this);
+        sceneMenu.attr({
+        	x: size.width / 2,
+        	y: size.height - menuHeight * 4,
+        	color: this.randomColor(),  // 改变颜色
+        	anchorX: 0.5,
+        	anchorY: 0.5
+        });
+        
+        
 
-        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu);
+        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);

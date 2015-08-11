@@ -951,6 +951,7 @@ var NodeTestLayer = TestBaseLayer.extend({
 				boundingBoxToWorld.y + tmpNode1.getContentSize().height / 2
 		);
 		this.addChild(tmpNode1);
+	}
 });
 
 var NodeTestScene = cc.Scene.extend({
@@ -962,4 +963,4 @@ var NodeTestScene = cc.Scene.extend({
 			this.addChild(layer);
 		}
 	}
-})
+});

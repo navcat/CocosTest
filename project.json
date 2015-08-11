@@ -16,6 +16,7 @@
         "src/PearlLayer.js",
         "src/ActionManager.js",
         "src/EventManager.js",
-        "src/NodeTest.js"
+        "src/NodeTest.js",
+        "src/TestSence.js"
     ]
 }
