@@ -13,7 +13,11 @@ var res = {
 	node128_png : "res/node/node_128.png",
 	node152_png : "res/node/node_152.png",
 	node256_png : "res/node/node_256.png",
-	node512_png : "res/node/node_512.png"
+	node512_png : "res/node/node_512.png",
+	
+	// 音频sound
+	bg_mp3          : "res/Sound/background.mp3",
+	effect_mp3      : "res/Sound/effect2.mp3"
 };
 
 var g_resources = [];

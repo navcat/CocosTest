@@ -17,6 +17,7 @@
         "src/ActionManager.js",
         "src/EventManager.js",
         "src/NodeTest.js",
-        "src/TestSence.js"
+        "src/TestSence.js",
+        "src/AudioTest.js"
     ]
 }
