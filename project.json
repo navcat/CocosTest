@@ -18,6 +18,7 @@
         "src/EventManager.js",
         "src/NodeTest.js",
         "src/TestSence.js",
-        "src/AudioTest.js"
+        "src/AudioTest.js",
+        "src/ParticleTest.js"
     ]
 }

@@ -97,10 +97,25 @@ var MenuLayer = cc.Layer.extend({
         	anchorY: 0.5
         });
         
+        /// 7.粒子系统
+        var particleMenu = new cc.MenuItemFont(
+        		"7.粒子系统",
+        		function () {
+        			cc.log("Menu is clicked 5!");
+        			cc.director.runScene(new ParticleTestScene());
+        		}, this);
+        particleMenu.attr({
+        	x: size.width / 2,
+        	y: size.height - menuHeight * 6,
+        	color: this.randomColor(),  // 改变颜色
+        	anchorX: 0.5,
+        	anchorY: 0.5
+        });
+        
         
         
 
-        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu, audioMenu);
+        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu, audioMenu, particleMenu);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);
