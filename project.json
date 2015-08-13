@@ -7,7 +7,8 @@
     "renderMode":0,
     "engineDir":"frameworks/cocos2d-html5",
     "modules":[
-        "cocos2d"
+        "cocos2d",
+        "extensions"
     ],
     "jsList":[
         "src/resource.js",
@@ -19,6 +20,8 @@
         "src/NodeTest.js",
         "src/TestSence.js",
         "src/AudioTest.js",
-        "src/ParticleTest.js"
+        "src/ParticleTest.js",
+        "src/rocker/RockerSprite.js",
+        "src/RockerDemo.js"
     ]
 }

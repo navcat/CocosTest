@@ -112,10 +112,24 @@ var MenuLayer = cc.Layer.extend({
         	anchorY: 0.5
         });
         
+        /// 8,2.5D游戏人物行走
+        var rockerMenu = new cc.MenuItemFont(
+        		"8.摇杆",
+        		function () {
+        			cc.log("Menu is clicked 8!");
+        			cc.director.runScene(new RockerDemoScene());
+        		}, this);
+        rockerMenu.attr({
+        	x: size.width / 2,
+        	y: size.height - menuHeight * 7,
+        	color: this.randomColor(),  // 改变颜色
+        	anchorX: 0.5,
+        	anchorY: 0.5
+        });
         
         
 
-        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu, audioMenu, particleMenu);
+        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu, audioMenu, particleMenu, rockerMenu);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);

@@ -7,6 +7,11 @@ var res = {
 	magenta_png     : "res/event/magenta_square.png",
 	yellow_png      : "res/event/yellow_square.png",
 	bg_scale9_png   : "res/event/buttonBackground.png",
+	base_png        : "res/event/control_base.png",
+	knob_png        : "res/event/control_knob.png",
+	bone_plist      : "res/event/bone.plist",
+	bone_png        : "res/event/bone.png",
+	knob_bg_png     : "res/event/bg.png",
 		
 	// 节点 node	
 	node64_png : "res/node/node_64.png",
