@@ -18,9 +18,9 @@
         "src/ActionManager.js",
         "src/EventManager.js",
         "src/NodeTest.js",
-        "src/TestSence.js",
-        "src/AudioTest.js",
-        "src/ParticleTest.js",
+        "src/SenceTest.js",
+        "src/AudioTestScene.js",
+        "src/ParticleTestScene.js",
         "src/rocker/RockerSprite.js",
         "src/RockerDemo.js"
     ]

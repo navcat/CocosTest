@@ -5,7 +5,27 @@ var MenuLayer = cc.Layer.extend({
         this._super();
         var size = cc.winSize;
         
+        // 添加背景图片
+        this.sprite = new cc.Sprite(res.BackGround_jpg);
+        this.sprite.attr({
+        	x: size.width / 2,
+        	y: size.height / 2,
+        	scale: 0.5,
+        	rotation: 0
+        });
+        this.addChild(this.sprite, 0);
+
+        var label = new cc.LabelTTF("练习册", "Arial", 38);
+        label.x = size.width / 2;
+        label.y = 0;
+        this.addChild(label, 5);
+        
+        /// 添加菜单
         var menuHeight = 50;  // 每行菜单的高度
+        var menu = new cc.Menu();
+        menu.x = 0;
+        menu.y = 0;
+        this.addChild(menu, 1);
 
         /// 添加菜单
         var pearlMenu = new cc.MenuItemFont(
@@ -21,6 +41,7 @@ var MenuLayer = cc.Layer.extend({
             anchorX: 0.5,
             anchorY: 0.5
         });
+        menu.addChild(pearlMenu);
         
         /// 动作管理
         var amMenu = new cc.MenuItemFont(
@@ -36,6 +57,7 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        menu.addChild(amMenu);
         
         /// 事件管理
         var eventMenu = new cc.MenuItemFont(
@@ -51,6 +73,7 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        menu.addChild(eventMenu);
         
         /// 节点测试
         var nodeMenu = new cc.MenuItemFont(
@@ -66,6 +89,7 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        menu.addChild(nodeMenu);
         
         /// 5.场景切换
         var sceneMenu = new cc.MenuItemFont(
@@ -81,13 +105,14 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        menu.addChild(sceneMenu);
         
         /// 6.音频测试
         var audioMenu = new cc.MenuItemFont(
         		"6.音频测试",
         		function () {
-        			cc.log("Menu is clicked 5!");
-        			cc.director.runScene(new TestAudioScene());
+        			cc.log("Menu is clicked 6!");
+        			cc.director.runScene(new AudioTestScene());
         		}, this);
         audioMenu.attr({
         	x: size.width / 2,
@@ -96,12 +121,13 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        menu.addChild(audioMenu);
         
         /// 7.粒子系统
         var particleMenu = new cc.MenuItemFont(
         		"7.粒子系统",
         		function () {
-        			cc.log("Menu is clicked 5!");
+        			cc.log("Menu is clicked 7!");
         			cc.director.runScene(new ParticleTestScene());
         		}, this);
         particleMenu.attr({
@@ -111,6 +137,7 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        menu.addChild(particleMenu);
         
         /// 8,2.5D游戏人物行走
         var rockerMenu = new cc.MenuItemFont(
@@ -126,28 +153,17 @@ var MenuLayer = cc.Layer.extend({
         	anchorX: 0.5,
         	anchorY: 0.5
         });
+        menu.addChild(rockerMenu);
         
         
 
-        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu, audioMenu, particleMenu, rockerMenu);
-        menu.x = 0;
-        menu.y = 0;
-        this.addChild(menu, 1);
+//        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu, audioMenu, particleMenu, );
+//        menu.x = 0;
+//        menu.y = 0;
+//        this.addChild(menu, 1);
 
-        var label = new cc.LabelTTF("练习册", "Arial", 38);
-        label.x = size.width / 2;
-        label.y = 0;
-        this.addChild(label, 5);
 
-        // 添加背景图片
-        this.sprite = new cc.Sprite(res.BackGround_jpg);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2,
-            scale: 0.5,
-            rotation: 0
-        });
-        this.addChild(this.sprite, 0);
+
         return true;
     },
     /**

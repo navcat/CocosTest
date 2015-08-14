@@ -90,7 +90,6 @@ var ActionManagerLayer = TestBaseLayer.extend({
 var ActionManagerScene = cc.Scene.extend({
 	onEnter: function(){
 		this._super();
-
 		var layer = new ActionManagerLayer();
 		this.addChild(layer);
 	}

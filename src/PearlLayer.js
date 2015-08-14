@@ -71,7 +71,6 @@ var PearlLayer = TestBaseLayer.extend({
 var PearlScene = cc.Scene.extend({
 	onEnter: function(){
 		this._super();
-		
 		var layer = new PearlLayer();
 		this.addChild(layer);
 	}

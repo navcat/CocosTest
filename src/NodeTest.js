@@ -957,10 +957,7 @@ var NodeTestLayer = TestBaseLayer.extend({
 var NodeTestScene = cc.Scene.extend({
 	onEnter: function(){
 		this._super();
-
-		if(true){
-			var layer = new NodeTestLayer();
-			this.addChild(layer);
-		}
+		var layer = new NodeTestLayer();
+		this.addChild(layer);
 	}
 });
