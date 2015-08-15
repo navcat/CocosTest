@@ -2,8 +2,6 @@
  * 音频测试
  */
 
-
-
 var LINE_SPACE = 50;
 var audioEngine = cc.audioEngine;
 var soundId = null;  // 音效ID
@@ -134,78 +132,6 @@ var DenshionTests = [
  }
  ];
 
-//var TestAudioLayer = TestBaseLayer.extend({
-var TestAudioLayer = cc.LayerGradient.extend({
-	w: 0,
-	h: 0,
-	w2: 0,
-	h2: 0,
-	size: null,
-	ctor: function(){
-		this._super();
-		this._super(cc.color(0, 0, 0, 255), cc.color(148, 80, 120, 255));
-		this.size = this.getContentSize();
-		this.w = this.size.width;
-		this.h = this.size.height;
-		this.w2 = this.size.width / 2;
-		this.h2 = this.size.height / 2;
-		this.loadMenu();
-	},
-	loadMenu : function(){
-		this._itemMenu = new cc.Menu();
-		for (var i = 0; i < DenshionTests.length; i++) {
-			var label = new cc.LabelTTF(DenshionTests[i].title, "Arial", 24);
-			var menuItem = new cc.MenuItemLabel(label, this.onMenuCallback, this);
-			this._itemMenu.addChild(menuItem, i + 10000);
-			menuItem.x = this.w2;
-			menuItem.y = this.h - (i + 1) * LINE_SPACE;
-		}
-		this._testCount = i;
-		this._itemMenu.width = this.w;
-		this._itemMenu.height = (this._testCount + 1) * LINE_SPACE;
-		this._itemMenu.x = 0;
-		this._itemMenu.y = 0;
-		this.addChild(this._itemMenu);
-
-		// 是否支持触摸事件
-		if( 'touches' in cc.sys.capabilities ) {
-			cc.eventManager.addListener({
-				event: cc.EventListener.TOUCH_ALL_AT_ONCE,
-				onTouchesMoved: function (touches, event) {
-					event.getCurrentTarget().moveMenu(touches[0].getDelta());
-				}
-			}, this);
-		// 是否支鼠标事件
-		} else if ('mouse' in cc.sys.capabilities )
-			cc.eventManager.addListener({
-				event: cc.EventListener.MOUSE,
-				onMouseMove: function(event){
-					if(event.getButton() == cc.EventMouse.BUTTON_LEFT)
-						event.getCurrentTarget().moveMenu(event.getDelta());
-				}
-			}, this);
-
-		audioEngine.setEffectsVolume(0.5);
-		audioEngine.setMusicVolume(0.5);
-
-	},
-	moveMenu:function (delta) {
-		var newY = this._itemMenu.y + delta.y;
-
-		if (newY < 0)
-			newY = 0;
-
-		if (newY > ((DenshionTests.length + 1) * LINE_SPACE - this.h))
-			newY = ((DenshionTests.length + 1) * LINE_SPACE - this.h);
-
-		this._itemMenu.y = newY;
-	},
-	onMenuCallback : function(sender){
-		var idx = sender.zIndex - 10000;
-		DenshionTests[idx].playFunc();		    		
-	}
-});
-
 
 var playMusic = function () {
 	cc.log("play background music");
@@ -316,6 +242,79 @@ var stopAllEffects = function () {
 	cc.log("stop all effects");
 	audioEngine.stopAllEffects();
 };
+
+
+var TestAudioLayer = TestBaseLayer.extend({
+//var TestAudioLayer = cc.LayerGradient.extend({
+	w: 0,
+	h: 0,
+	w2: 0,
+	h2: 0,
+	size: null,
+	ctor: function(){
+		this._super();
+//		this._super(cc.color(0, 0, 0, 255), cc.color(148, 80, 120, 255));
+		this.size = this.getContentSize();
+		this.w = this.size.width;
+		this.h = this.size.height;
+		this.w2 = this.size.width / 2;
+		this.h2 = this.size.height / 2;
+		this.loadMenu();
+	},
+	loadMenu : function(){
+		this._itemMenu = new cc.Menu();
+		for (var i = 0; i < DenshionTests.length; i++) {
+			var label = new cc.LabelTTF(DenshionTests[i].title, "Arial", 24);
+			var menuItem = new cc.MenuItemLabel(label, this.onMenuCallback, this);
+			this._itemMenu.addChild(menuItem, i + 10000);
+			menuItem.x = this.w2;
+			menuItem.y = this.h - (i + 1) * LINE_SPACE;
+		}
+		this._testCount = i;
+		this._itemMenu.width = this.w;
+		this._itemMenu.height = (this._testCount + 1) * LINE_SPACE;
+		this._itemMenu.x = 0;
+		this._itemMenu.y = 0;
+		this.addChild(this._itemMenu);
+
+		// 是否支持触摸事件
+		if( 'touches' in cc.sys.capabilities ) {
+			cc.eventManager.addListener({
+				event: cc.EventListener.TOUCH_ALL_AT_ONCE,
+				onTouchesMoved: function (touches, event) {
+					event.getCurrentTarget().moveMenu(touches[0].getDelta());
+				}
+			}, this);
+			// 是否支鼠标事件
+		} else if ('mouse' in cc.sys.capabilities )
+			cc.eventManager.addListener({
+				event: cc.EventListener.MOUSE,
+				onMouseMove: function(event){
+					if(event.getButton() == cc.EventMouse.BUTTON_LEFT)
+						event.getCurrentTarget().moveMenu(event.getDelta());
+				}
+			}, this);
+
+		audioEngine.setEffectsVolume(0.5);
+		audioEngine.setMusicVolume(0.5);
+
+	},
+	moveMenu:function (delta) {
+		var newY = this._itemMenu.y + delta.y;
+
+		if (newY < 0)
+			newY = 0;
+
+		if (newY > ((DenshionTests.length + 1) * LINE_SPACE - this.h))
+			newY = ((DenshionTests.length + 1) * LINE_SPACE - this.h);
+
+		this._itemMenu.y = newY;
+	},
+	onMenuCallback : function(sender){
+		var idx = sender.zIndex - 10000;
+		DenshionTests[idx].playFunc();		    		
+	}
+});
 
 
 var AudioTestScene = cc.Scene.extend({

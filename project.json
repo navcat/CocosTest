@@ -1,27 +1,27 @@
 {
-    "project_type":"javascript",
-    "debugMode":1,
-    "showFPS":true,
-    "frameRate":60,
-    "id":"gameCanvas",
-    "renderMode":0,
-    "engineDir":"frameworks/cocos2d-html5",
-    "modules":[
-        "cocos2d",
-        "extensions"
-    ],
-    "jsList":[
-        "src/resource.js",
-        "src/app.js",
-        "src/TestBaseLayer.js",
-        "src/PearlLayer.js",
-        "src/ActionManager.js",
-        "src/EventManager.js",
-        "src/NodeTest.js",
-        "src/SenceTest.js",
-        "src/AudioTestScene.js",
-        "src/ParticleTestScene.js",
-        "src/rocker/RockerSprite.js",
-        "src/RockerDemo.js"
-    ]
+  "project_type": "javascript",
+  "debugMode": 1,
+  "showFPS": true,
+  "frameRate": 60,
+  "id": "gameCanvas",
+  "renderMode": 0,
+  "engineDir": "frameworks/cocos2d-html5",
+  "modules": [
+    "cocos2d",
+    "extensions"
+  ],
+  "jsList": [
+    "src/resource.js",
+    "src/app.js",
+    "src/TestBaseLayer.js",
+    "src/PearlLayer.js",
+    "src/ActionManager.js",
+    "src/EventManager.js",
+    "src/NodeTest.js",
+    "src/SenceTest.js",
+    "src/rocker/RockerSprite.js",
+    "src/RockerDemo.js",
+    "src/AudioTest.js",
+    "src/ParticleTest.js"
+  ]
 }

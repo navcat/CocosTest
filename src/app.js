@@ -154,7 +154,7 @@ var MenuLayer = cc.Layer.extend({
         	anchorY: 0.5
         });
         menu.addChild(rockerMenu);
-        
+//        
         
 
 //        var menu = new cc.Menu(pearlMenu, amMenu, eventMenu, nodeMenu, sceneMenu, audioMenu, particleMenu, );
