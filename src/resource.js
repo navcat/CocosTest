@@ -12,6 +12,7 @@ var res = {
 	bone_plist      : "res/event/bone.plist",
 	bone_png        : "res/event/bone.png",
 	knob_bg_png     : "res/event/bg.png",
+	knob_shadow_png : "res/event/shadow.png",
 		
 	// 节点 node	
 	node64_png : "res/node/node_64.png",

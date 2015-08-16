@@ -9,10 +9,14 @@ var RockerDemoLayer = TestBaseLayer.extend({
 	boneSpeed   : 0.8,      // 骨精灵[速度]
 	w: 0,
 	h: 0,
+	w2: 0,
+	h2: 0,
 	ctor:function () {
 		this._super();
 		this.w = this.size.width;
 		this.h = this.size.height;
+		this.w2 = this.size.width / 2;
+		this.h2 = this.size.height / 2;
 		// 加载背景
 		this.loadBg();
 		// 加载摇杆
@@ -30,9 +34,9 @@ var RockerDemoLayer = TestBaseLayer.extend({
 	//加载摇杆
 	loadRocker : function(){
 		this.rocker = new Rocker(res.base_png, res.knob_png, "DEFAULT");
-	//	this.rocker = new Rocker(res.base_png, res.knob_png, "AUTO");
-	//	this.rocker = new Rocker(res.base_png, res.knob_png, "HIDE");
-	//	this.rocker = new Rocker(res.base_png, res.knob_png, 128);
+//		this.rocker = new Rocker(res.base_png, res.knob_png, "AUTO");
+//		this.rocker = new Rocker(res.base_png, res.knob_png, "HIDE");
+//		this.rocker = new Rocker(res.base_png, res.knob_png, 128);
 		this.rocker.callback = this.onCallback.bind(this);
 		this.addChild(this.rocker);
 		this.rocker.setPosition(150, 150);
@@ -47,7 +51,7 @@ var RockerDemoLayer = TestBaseLayer.extend({
 		this.boneGril.name = "骨精灵";
 		this.boneGril.setPosition(this.w * 0.5, this.h * 0.4);
 		// 阴影[骨精灵脚下]
-		var shadow = new cc.Sprite("res/action/shadow.png");
+		var shadow = new cc.Sprite(res.knob_shadow_png);
 		this.boneGril.addChild(shadow);
 		shadow.setAnchorPoint(0.12, 0.2);
 		// 动作
@@ -127,6 +131,7 @@ var RockerDemoLayer = TestBaseLayer.extend({
 			this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
 			break;
 		case Direction.DEFAULT:
+			break;
 		default :
 			break;
 		}
