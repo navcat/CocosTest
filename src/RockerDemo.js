@@ -55,21 +55,30 @@ var RockerDemoLayer = TestBaseLayer.extend({
 		this.boneGril.addChild(shadow);
 		shadow.setAnchorPoint(0.12, 0.2);
 		// 动作
-		var animate = this.getAnimate(0);
+		var animate = this.getAnimate(0);   // 默认为plist中第一张图片的动作
 		this.boneGril.runAction(animate.repeatForever());
 	
 	},
-	//回调函数[摇杆中触发]
+	/**
+	 * 回调函数[摇杆中触发]
+	 */
 	onCallback : function(sender){
+		// 摇杆的方向
 		var dir = this.rocker.direction;
+		// 如果摇杆的方向与骨精灵的放方向不一致，则设置骨精灵的方向为摇杆的方向
 		if (dir != this.boneDir){
 			this.boneDir = dir;
+			// 改变骨精灵的方向
 			this.boneChangeDir(this.boneDir);
 		}else{
-			this.onRun()
+			// 滑动精灵时执行的操作
+			this.onRun();
 		}
 	},
-	//获取动画
+	/**
+	 * 获取动画
+	 * @param  int dir RockerSprite.Direction 运动方向
+	 */
 	getAnimate : function(dir){
 		var frames = [];
 		for (var i = 0; i < 8; i++){
@@ -101,39 +110,39 @@ var RockerDemoLayer = TestBaseLayer.extend({
 	//	cc.log("tmpCos : "+ tmpCos + "tmpSin :" +tmpSin);
 	
 		switch (dir){
-		case Direction.D_UP:
-			this.boneGril.y += rockerSpeed * this.boneSpeed;
-			break;
-		case Direction.D_RIGHT_UP:
-			// TODO 为毛线全是 +=
-			this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
-			this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
-			break;
-		case Direction.D_RIGHT:
-			this.boneGril.x += rockerSpeed * this.boneSpeed;
-			break;
-		case Direction.D_RIGHT_DOWN:
-			this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
-			this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
-			break;
-		case Direction.D_DOWN:
-			this.boneGril.y -= rockerSpeed * this.boneSpeed;
-			break;
-		case Direction.D_LEFT_DOWN:
-			this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
-			this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
-			break;
-		case Direction.D_LEFT:
-			this.boneGril.x -= rockerSpeed * this.boneSpeed;
-			break;
-		case Direction.D_LEFT_UP:
-			this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
-			this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
-			break;
-		case Direction.DEFAULT:
-			break;
-		default :
-			break;
+			case Direction.D_UP:
+				this.boneGril.y += rockerSpeed * this.boneSpeed;
+				break;
+			case Direction.D_RIGHT_UP:
+				// TODO 为毛线全是 +=
+				this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
+				this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
+				break;
+			case Direction.D_RIGHT:
+				this.boneGril.x += rockerSpeed * this.boneSpeed;
+				break;
+			case Direction.D_RIGHT_DOWN:
+				this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
+				this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
+				break;
+			case Direction.D_DOWN:
+				this.boneGril.y -= rockerSpeed * this.boneSpeed;
+				break;
+			case Direction.D_LEFT_DOWN:
+				this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
+				this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
+				break;
+			case Direction.D_LEFT:
+				this.boneGril.x -= rockerSpeed * this.boneSpeed;
+				break;
+			case Direction.D_LEFT_UP:
+				this.boneGril.x += rockerSpeed * this.boneSpeed * Math.cos(radians);
+				this.boneGril.y += rockerSpeed * this.boneSpeed * Math.sin(radians);
+				break;
+			case Direction.DEFAULT:
+				break;
+			default :
+				break;
 		}
 	}
 });
