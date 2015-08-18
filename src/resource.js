@@ -15,7 +15,7 @@ var res = {
 	knob_shadow_png : "res/event/shadow.png",
 		
 	// 节点 node	
-	node64_png : "res/node/node_64.png",
+	node64_png  : "res/node/node_64.png",
 	node128_png : "res/node/node_128.png",
 	node152_png : "res/node/node_152.png",
 	node256_png : "res/node/node_256.png",
