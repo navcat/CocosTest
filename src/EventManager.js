@@ -249,7 +249,6 @@ var TouchPriorityLayer =  EventManagerLayer.extend({
 // --------------------- 4.移除监听器，实现触摸开关 -----------------
 // ==================================================================
 var EnabledTouchLayer = EventManagerLayer.extend({
-    _listener: null,
     ctor: function(){
         this._super();
         var enable = false;
@@ -259,7 +258,6 @@ var EnabledTouchLayer = EventManagerLayer.extend({
         var sprite = new cc.Sprite(res.cyan_png);
         this.addChild(sprite);
         sprite.setPosition(size.width / 2, size.height / 2);
-
 
         var listener = cc.EventListener.create({
             event           : cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -272,10 +270,9 @@ var EnabledTouchLayer = EventManagerLayer.extend({
 
         // TODO 因为下面有个移除事件操作，此操作会使得listener的引用计数-1，当引用计数为0的时候，listener就会被引擎内存管理自动回收。
         // TODO 内存管理的一种方式。调用使得listener的引用计数+1， 从而保证对象不会被回收。[如何理解：开门，关门，必须保证有门在]
-        // this.setUserObject(this._listener);
+        this.setUserObject(listener);
 
         cc.eventManager.addListener(listener, sprite);
-        this._listener = listener;
 
         // 开关item
         var toggleItem = new cc.MenuItemToggle(
@@ -283,15 +280,11 @@ var EnabledTouchLayer = EventManagerLayer.extend({
             new cc.MenuItemFont("Disabled"),
             function(){
                 cc.log('enable', enable);
-                if (listener){
-                    if (enable){
-                        // 事件添加
-                        cc.eventManager.addListener(listener, sprite);
-                    }else{
-                        cc.eventManager.removeListener(listener);
-                    }
+                if (enable){
+                    // 事件添加
+                    cc.eventManager.addListener(listener, sprite);
                 }else{
-                    cc.error("this._listener 为空...");
+                    cc.eventManager.removeListener(listener);
                 }
                 enable = !enable;
             });
@@ -322,16 +315,139 @@ var EnabledTouchLayer = EventManagerLayer.extend({
         this.target.setColor(cc.color.WHITE);
     },
     onTouchCancelled : function(touch, event){
-    },
-    onExit: function(){
-        if (this._listener !== null){
-            cc.eventManager.removeListener(this._listener);
-        }
-        this._super();
     }
-
 });
 
+
+// ==================================================================
+// ----------------------- 5.事件[暂停/恢复] ------------------------
+// ==================================================================
+var TouchPauseResumeLayer =  EventManagerLayer.extend({
+    onEnter : function () {
+        this._super();
+
+        var size = this.getContentSize();
+        // 左上角的精灵.
+        var sprite1 = new cc.Sprite(res.cyan_png);
+        this.addSpriteListener(sprite1);      // 添加事件监听
+        sprite1.setPosition(size.width / 2 - sprite1.getContentSize().width / 2, size.height / 2 + sprite1.getContentSize().height / 2);
+        this.addChild(sprite1);
+
+        // 中间的精灵.
+        var sprite2 = new cc.Sprite(res.magenta_png);
+        this.addSpriteListener(sprite2);      // 添加事件监听
+        sprite2.setPosition(size.width / 2 + 100, size.height / 2);
+        this.addChild(sprite2);
+
+        // 右下角的精灵. 触摸优先级为：10
+        var sprite3 = new cc.Sprite(res.yellow_png);  // sprite3 采用了触控优先级
+        this.addSpriteListener(sprite3, -10);      // 添加事件监听
+        sprite3.setPosition(sprite3.getContentSize().width, 0);
+        sprite2.addChild(sprite3, -1);
+
+        var self = this;
+
+        var popup = new cc.MenuItemFont("Popup", function(sender){
+
+            // TODO【事件暂停】
+            sprite3._listener.setEnabled(false);
+            cc.eventManager.pauseTarget(self, true);  // TODO true 表示是否联级-->关联所有子节点
+
+            //  创建一个颜色层，半透明
+            var colorLayer = new cc.LayerColor(cc.color(0, 0, 255, 128));
+            self.addChild(colorLayer, 999); //set colorLayer to top
+
+            // 创建按钮
+            var btn_normal = new cc.Scale9Sprite(res.bg_scale9_png);
+            var btn_press = new cc.Scale9Sprite(res.bg_scale9_png);
+            var titleBtn = new cc.LabelTTF("Close Dialog", "Arial", 26);
+            titleBtn.color = cc.color(255, 128, 128);
+
+            var controlButton = new cc.ControlButton(titleBtn, btn_normal);
+            controlButton.setBackgroundSpriteForState(btn_press, cc.CONTROL_STATE_HIGHLIGHTED);
+            controlButton.setTitleColorForState(cc.color.WHITE, cc.CONTROL_STATE_HIGHLIGHTED);
+            controlButton.anchorX = 0.5;
+            controlButton.anchorY = 1;
+            controlButton.x = size.width / 2 + 50;
+            controlButton.y = size.height / 2 - 150;
+
+            controlButton.addTargetWithActionForControlEvents(this, function(){
+                colorLayer.removeFromParent();
+                // TODO 【事件恢复】
+                cc.eventManager.resumeTarget(self, true);
+                sprite3._listener.setEnabled(true);
+            }, cc.CONTROL_EVENT_TOUCH_UP_INSIDE);
+
+            // 创建背景面板
+            var background = new cc.Scale9Sprite(res.bg_scale9_png);
+            background.width = 300;
+            background.height = 170;
+            background.x = size.width / 2 + 50;
+            background.y = size.height / 2 - 150;
+
+            colorLayer.addChild(background);
+            colorLayer.addChild(controlButton, 1);
+
+        });
+
+        popup.setAnchorPoint(1,0.5);
+        popup.setPosition(cc.visibleRect.right);
+
+        var menu = new cc.Menu(popup);
+        menu.setAnchorPoint(0, 0);
+        menu.setPosition(0, 0);
+
+        this.addChild(menu);
+    },
+    /**
+     * 添加事件监听
+     * @param cc.Sprite sprite 为sprite添加事件监听
+     */
+    addSpriteListener: function(sprite, priority){
+        cc.log('priority:', priority);
+        var listener = cc.EventListener.create({
+            event           : cc.EventListener.TOUCH_ONE_BY_ONE,
+            target          : sprite,
+            swallowTouches  : true,
+            onTouchBegan    : this.onTouchBegan,
+            onTouchMoved    : this.onTouchMoved,
+            onTouchEnded    : this.onTouchEnded,
+            onTouchCancelled : this.onTouchCancelled
+        });
+        if(priority){
+            cc.eventManager.addListener(listener, priority);
+        }else{
+            cc.eventManager.addListener(listener, sprite);
+        }
+        sprite._listener = listener;
+    },
+    onTouchBegan: function (touch, event) {
+        // TODO onTouchBegan中的this，实际上是listener对象
+        var target = this.target;
+        cc.log('target', target);
+        var locationInNode = target.convertToNodeSpace(touch.getLocation());
+        var size = target.getContentSize();
+        var rect = cc.rect(0, 0, size.width, size.height);
+
+        if (!cc.rectContainsPoint(rect, locationInNode)) {
+            return false;
+        }
+
+        this.target.setColor(cc.color.RED);
+        return true;
+    },
+    onTouchMoved : function (touch, event) {
+    },
+    onTouchEnded : function (touch, event) {
+        this.target.setColor(cc.color.WHITE);
+    },
+    onTouchCancelled : function(touch, event){
+    }
+});
+
+/**
+ * 场景
+ */
 var EventManagerScene = cc.Scene.extend({
     onEnter: function(){
         this._super();
@@ -352,8 +468,12 @@ var EventManagerScene = cc.Scene.extend({
         }
 
         /// 4, 移除监听器，实现触摸开关
-        if(true){
+        if(!true){
             this.addChild(new EnabledTouchLayer());
+        }
+        /// 5.事件[暂停/恢复]
+        if(true){
+            this.addChild(new TouchPauseResumeLayer());
         }
     }
 });
