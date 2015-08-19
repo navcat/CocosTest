@@ -9,7 +9,7 @@ var EventManagerLayer = TestBaseLayer.extend({
 });
 
 // ==================================================================
-// -------------------- 1.TOUCH_ONE_BY_ONE 示例 -----------------------
+// -------------------- 1.TOUCH_ONE_BY_ONE 示例 ---------------------
 // ==================================================================
 var TouchOneByOneLayer = EventManagerLayer.extend({
     onEnter : function () {
@@ -86,7 +86,7 @@ var TouchOneByOneLayer = EventManagerLayer.extend({
 });
 
 // ==================================================================
-// -------------------- 2.多点触控 TOUCH_ALL_AT_ONCE 示例 -----------------------
+// -------------------- 2.多点触控 TOUCH_ALL_AT_ONCE 示例 -----------
 // ==================================================================
 var TouchAllAtOnceLayer = EventManagerLayer.extend({
     onEnter : function () {
@@ -170,7 +170,7 @@ var TouchAllAtOnceLayer = EventManagerLayer.extend({
 });
 
 // ==================================================================
-// ----------------------- 3. 触摸优先级 示例 -----------------------------
+// ----------------------- 3. 触摸优先级 示例 -----------------------
 // ==================================================================
 var TouchPriorityLayer =  EventManagerLayer.extend({
     onEnter : function () {
@@ -246,87 +246,62 @@ var TouchPriorityLayer =  EventManagerLayer.extend({
 
 
 // ==================================================================
-// --------------------- 4.移除监听器，实现触摸开关 ------------------------
+// --------------------- 4.移除监听器，实现触摸开关 -----------------
 // ==================================================================
 var EnabledTouchLayer = EventManagerLayer.extend({
     _listener: null,
-    sprite: null,
-    enable: false,
     ctor: function(){
         this._super();
-        this.enable = false;
+        var enable = false;
 
         var size = this.getContentSize();
 
-        var node = new cc.Sprite(res.cyan_png);
-        this.sprite = node;
-        this.addChild(this.sprite);
-        this.sprite.setPosition(size.width / 2, size.height / 2);
+        var sprite = new cc.Sprite(res.cyan_png);
+        this.addChild(sprite);
+        sprite.setPosition(size.width / 2, size.height / 2);
 
 
         var listener = cc.EventListener.create({
             event           : cc.EventListener.TOUCH_ONE_BY_ONE,
-            target          : this.sprite,
+            target          : sprite,
             swallowTouches  : true,
             onTouchBegan    : this.onTouchBegan,
             onTouchMoved    : this.onTouchMoved,
             onTouchEnded    : this.onTouchEnded
         });
-        this._listener = listener;
 
         // TODO 因为下面有个移除事件操作，此操作会使得listener的引用计数-1，当引用计数为0的时候，listener就会被引擎内存管理自动回收。
         // TODO 内存管理的一种方式。调用使得listener的引用计数+1， 从而保证对象不会被回收。[如何理解：开门，关门，必须保证有门在]
-        this.setUserObject(this._listener);
+        // this.setUserObject(this._listener);
 
-        cc.eventManager.addListener(this._listener, this.sprite);
+        cc.eventManager.addListener(listener, sprite);
+        this._listener = listener;
 
         // 开关item
         var toggleItem = new cc.MenuItemToggle(
             new cc.MenuItemFont("Enabled"),
             new cc.MenuItemFont("Disabled"),
-            this.onCallback
-            // function (sender) {
-            //     // 触摸开关。
-            //     cc.log('enable', this.enable);
-            //     if (this._listener){
-            //         if (this.enable){
-            //             // 事件添加
-            //             cc.eventManager.addListener(this._listener, this.sprite);
-            //         }else{
-
-            //             cc.eventManager.removeListener(this._listener);
-            //         }
-            //     }else{
-            //         cc.error("this._listener 为空...");
-            //     }
-            //     this.enable = !this.enable;
-            // }
-            );
+            function(){
+                cc.log('enable', enable);
+                if (listener){
+                    if (enable){
+                        // 事件添加
+                        cc.eventManager.addListener(listener, sprite);
+                    }else{
+                        cc.eventManager.removeListener(listener);
+                    }
+                }else{
+                    cc.error("this._listener 为空...");
+                }
+                enable = !enable;
+            });
 
         toggleItem.setPosition(size.width / 2, 120);
         var menu = new cc.Menu(toggleItem);
         menu.setPosition(0, 0);
         menu.setAnchorPoint(0, 0);
         this.addChild(menu, 1);
-        cc.log('ena666ble', this.enable);
         return true;
-    },
-    onCallback: function(){
-        // 触摸开关。
-        cc.log('enable', this.enable);
-        cc.log(this._listener);
-        if (this._listener){
-            if (this.enable){
-                // 事件添加
-                cc.eventManager.addListener(this._listener, this.sprite);
-            }else{
-
-                cc.eventManager.removeListener(this._listener);
-            }
-        }else{
-            cc.error("this._listener 为空...");
-        }
-        this.enable = !this.enable;
     },
     onTouchBegan: function (touch, event) {
         // TODO onTouchBegan中的this，实际上是listener对象
