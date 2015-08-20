@@ -448,7 +448,7 @@ var TouchPauseResumeLayer =  EventManagerLayer.extend({
 // ==================================================================
 // --------------------------- 6.重力加速计 -------------------------
 // ==================================================================
-var AccelerationLayer =  EventManagerLayer.extend({
+var AccelerationLayer = EventManagerLayer.extend({
     onEnter : function(){
         this._super();
 
@@ -509,6 +509,60 @@ AccelerationLayer.fixPos = function(pos, min, max){
     return ret;
 };
 
+
+// ==================================================================
+// ---------------------------- 7.键盘事件 --------------------------
+// ==================================================================
+var KeyboardLayer = EventManagerLayer.extend({
+    _label : null,
+    onEnter:function () {
+        this._super();
+
+        // 创建一个label
+        this.lebel = new cc.LabelTTF("No keyboard event received!", "", 20);
+        this.addChild(this.lebel);
+        this.lebel.setPosition(this.w2, this.h2);
+
+        if( 'keyboard' in cc.sys.capabilities ) {
+            // 为this.lebel 添加一个键盘监听事件
+            cc.eventManager.addListener({
+                event: cc.EventListener.KEYBOARD,
+                target: this.lebel,
+                onKeyPressed: this.onKeyPressed,
+                onKeyReleased: this.onKeyReleased
+            }, this.lebel);
+        }else{
+            cc.log("keyboard 不支持键盘事件");
+        }
+
+        return true;
+    },
+
+    // 键按下
+    onKeyPressed : function(keyCode, event){
+        var target = this.target;
+        // 三目运算 。 isNative 判断是否为本地平台。
+        target.setString("Key " + (cc.sys.isNative ? target.getNativeKeyName(keyCode) : String.fromCharCode(keyCode) ) + "(" + keyCode.toString()  + ") was pressed!");
+    },
+    // 键释放
+    onKeyReleased: function(keyCode, event){
+        var target = this.target;
+        target.setString("Key " + (cc.sys.isNative ? target.getNativeKeyName(keyCode) : String.fromCharCode(keyCode) ) + "(" + keyCode.toString()  + ") was released!");
+    },
+    // 返回本地按键名称
+    getNativeKeyName:function(keyCode) {
+        var allCode = Object.getOwnPropertyNames(cc.KEY);
+        var keyName = "";
+        for(var x in allCode){
+            if(cc.KEY[allCode[x]] == keyCode){
+                keyName = allCode[x];
+                break;
+            }
+        }
+        return keyName;
+    }
+});
+
 /**
  * 场景
  */
@@ -540,8 +594,12 @@ var EventManagerScene = cc.Scene.extend({
             this.addChild(new TouchPauseResumeLayer());
         }
         /// 6.重力加速计
-        if(true){
+        if(!true){
             this.addChild(new AccelerationLayer());
+        }
+        /// 7.键盘事件
+        if(true){
+        	this.addChild(new KeyboardLayer());
         }
     }
 });
