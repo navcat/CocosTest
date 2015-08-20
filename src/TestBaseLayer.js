@@ -3,11 +3,19 @@
  */
 var TestBaseLayer = cc.Layer.extend({
 	size: null,
+	w:0,
+	h:0,
+	w2:0,
+	h2:0,
 	ctor: function(){
 		this._super();
 		// 获取窗口的大小
 		var size = this.getContentSize();
 		this.size = size;
+		this.w = size.width;
+		this.h = size.height;
+		this.w2 = size.width / 2;
+		this.h2 = size.height / 2;
 		
 		// 返回菜单
 		var returnMenu = new cc.MenuItemFont(

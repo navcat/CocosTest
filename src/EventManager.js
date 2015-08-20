@@ -445,6 +445,70 @@ var TouchPauseResumeLayer =  EventManagerLayer.extend({
     }
 });
 
+// ==================================================================
+// --------------------------- 6.重力加速计 -------------------------
+// ==================================================================
+var AccelerationLayer =  EventManagerLayer.extend({
+    onEnter : function(){
+        this._super();
+
+        var sprite = new cc.Sprite(res.node64_png);
+        this.addChild(sprite);
+        sprite.setPosition(this.w2, this.h2);
+
+        if( 'accelerometer' in cc.sys.capabilities ) {
+            // 开始重力加速度
+            cc.inputManager.setAccelerometerEnabled(true);
+            // 设置迭代间隔
+            cc.inputManager.setAccelerometerInterval(1/60);
+
+            var listener = cc.EventListener.create({
+                event       : cc.EventListener.ACCELERATION,
+                callback    : this.onListenerAccelerometer
+            });
+            cc.eventManager.addListener(listener, sprite);
+
+        }else{
+            cc.log("accelerometer not supported");
+        }
+    },
+    onListenerAccelerometer : function(acc, event){
+        // 备注：acc.x 和 acc.y 取值范围 (-1 到 1). 不含-1和1
+        var target = event.getCurrentTarget();
+        var ballSize  = target.getContentSize();
+        var currPos  = target.getPosition();
+
+        // TODO 速度定义
+        var speed = 15;
+        target.x = AccelerationLayer.fixPos(
+                currPos.x + acc.x * speed,
+                ballSize.width / 2,
+                this.w - ballSize.width / 2);
+        target.y = AccelerationLayer.fixPos(
+                currPos.y + acc.y * speed,
+                ballSize.height / 2,
+                this.h - ballSize.height / 2);
+    },
+    // 重写onExit方法
+    // 【注意】：所有onExit中，先处理自己的业务逻辑，再去调用this._super();
+    // TODO 隐喻：女孩子上下楼梯
+    onExit:function(){
+        // 关闭重力加速度监听
+        cc.inputManager.setAccelerometerEnabled(false);
+        this._super();
+    }
+});
+
+// 限制在屏幕内
+AccelerationLayer.fixPos = function(pos, min, max){
+    var ret = pos;
+    if(pos < min)
+        ret = min;
+    else if(pos > max)
+        ret = max;
+    return ret;
+};
+
 /**
  * 场景
  */
@@ -472,8 +536,12 @@ var EventManagerScene = cc.Scene.extend({
             this.addChild(new EnabledTouchLayer());
         }
         /// 5.事件[暂停/恢复]
-        if(true){
+        if(!true){
             this.addChild(new TouchPauseResumeLayer());
+        }
+        /// 6.重力加速计
+        if(true){
+            this.addChild(new AccelerationLayer());
         }
     }
 });
