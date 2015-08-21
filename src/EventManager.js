@@ -638,6 +638,58 @@ var MouseLayer = EventManagerLayer.extend({
     }
 });
 
+// ==================================================================
+// -------------------------- 9.自定义事件 --------------------------
+// ==================================================================
+var CustomLayer = EventManagerLayer.extend({
+
+    _listener1  : null,
+    _item1Count : 0,
+    label       : null,
+    onEnter : function () {
+        this._super();
+
+        // TODO 取代了cocos2d-x 2.x版本中的NotificationCenter。
+        this.label = new cc.LabelTTF("No custom event 1 received!", "", 20);
+        this.addChild(this.label);
+        this.label.setPosition(this.w2, this.h - 150);
+
+        // 自定义事件回调函数
+        cc.eventManager.addListener({
+            event       : cc.EventListener.CUSTOM,
+            target      : this,
+            eventName   : "custom_event1",
+            callback    : this.customCallBack
+        }, this.label);
+
+        // 作用域保存
+        var self = this;
+        var sendItem = new cc.MenuItemFont("Send Custom Event 1", function(sender){
+            self._item1Count++;
+//            sender.parent 为【菜单】， sender.parent.parent 为当前层
+//            sender.parent.parent._item1Count++;  // 效果等同上面那行代码，但是，我们一般不这样做。
+            var event = new cc.EventCustom("custom_event1");
+            event.setUserData(self._item1Count.toString());
+//            手工分发事件，触发前面定义的回调函数
+            cc.eventManager.dispatchEvent(event);
+        });
+        sendItem.setPosition(this.w2, this.h2);
+
+        var menu = new cc.Menu(sendItem);
+        menu.setPosition(0, 0);
+        menu.setAnchorPoint(0, 0);
+        this.addChild(menu, 1);
+
+        return true;
+    },
+    customCallBack : function(event){
+        var target = event.getCurrentTarget();
+        // 可以通过getUserData来设置需要传输的用户自定义数据
+        target.setString("Custom event 1 received, " + event.getUserData() + " times");
+    }
+
+});
+
 /**
  * 场景
  */
@@ -677,8 +729,12 @@ var EventManagerScene = cc.Scene.extend({
             this.addChild(new KeyboardLayer());
         }
         /// 8.鼠标事件
-        if(true){
+        if(!true){
             this.addChild(new MouseLayer());
+        }
+        /// 9.自定义事件
+        if(true){
+            this.addChild(new CustomLayer());
         }
     }
 });
