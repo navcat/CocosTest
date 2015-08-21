@@ -563,6 +563,81 @@ var KeyboardLayer = EventManagerLayer.extend({
     }
 });
 
+
+// ==================================================================
+// ----------------------------- 8.鼠标事件 -------------------------
+// ==================================================================
+var MouseLayer = EventManagerLayer.extend({
+    node : null,
+    onEnter : function(){
+        this._super();
+
+        this.node = new cc.Sprite(res.node64_png);
+        this.addChild(this.node);
+        this.node.setPosition(this.w2, this.h2);
+        if( "mouse" in cc.sys.capabilities ) {
+            cc.eventManager.addListener({
+                event       : cc.EventListener.MOUSE,
+                target      : this,
+                onMouseDown : this.onMouseDown,
+                onMouseUp   : this.onMouseUp,
+                onMouseMove : this.onMouseMove,
+                onMouseScroll:this.onMouseScroll
+            }, this);
+        }else{
+            cc.log("mouse not support");
+        }
+
+    },
+    // 鼠标事件[按下]
+    onMouseDown: function(event){
+        var pos = event.getLocation();
+        var button = event.getButton();
+        if (button == cc.EventMouse.BUTTON_LEFT){
+            // 左键
+            cc.log("左键按下", + pos.x + " " + pos.y);
+        }else if(button == cc.EventMouse.BUTTON_RIGHT){
+            // 右键
+            cc.log("右键按下", + pos.x + " " + pos.y);
+        }else if(button == cc.EventMouse.BUTTON_MIDDLE){
+            // 滚轮
+            cc.log("右键按下");
+        }
+    },
+    // 鼠标事件[抬起]
+    onMouseUp: function(event){
+        var pos = event.getLocation();
+        var button = event.getButton();
+        if (button == cc.EventMouse.BUTTON_LEFT){
+            // 左键
+            cc.log("左键抬起", + pos.x + " " + pos.y);
+        }else if(button == cc.EventMouse.BUTTON_RIGHT){
+            // 右键
+            cc.log("右键抬起", + pos.x + " " + pos.y);
+        }else if(button == cc.EventMouse.BUTTON_MIDDLE){
+            // 滚轮
+            cc.log("右键抬起");
+        }
+
+    },
+    // 鼠标事件[移动]
+    onMouseMove: function(event){
+        var pos = event.getLocation();
+        this.target.node.x = pos.x;
+        this.target.node.y = pos.y;
+    },
+    // 鼠标事件[滚动轮滚动]
+    onMouseScroll: function(event){
+        // 实现节点放大缩小
+        var pos = cc.p(event.getScrollX(), event.getScrollY());
+        if (pos.y > 0){
+            this.target.node.scale += 0.05;
+        }else{
+            this.target.node.scale -= 0.05;
+        }
+    }
+});
+
 /**
  * 场景
  */
@@ -598,8 +673,12 @@ var EventManagerScene = cc.Scene.extend({
             this.addChild(new AccelerationLayer());
         }
         /// 7.键盘事件
+        if(!true){
+            this.addChild(new KeyboardLayer());
+        }
+        /// 8.鼠标事件
         if(true){
-        	this.addChild(new KeyboardLayer());
+            this.addChild(new MouseLayer());
         }
     }
 });
